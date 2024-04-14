@@ -1,5 +1,6 @@
 'use client';
-import { Menu, MoveUpRight, ShoppingCart } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
+import { Menu, ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
 
@@ -14,7 +15,7 @@ export const Header = () => {
     <header className="flex w-full flex-col">
       <section className="flex items-center justify-center bg-primary px-4 py-3">
         <span className="flex items-center gap-2 text-sm font-medium text-white">
-          Subscribe to our Newsletter For Latest Collections <MoveUpRight />
+          Subscribe to our Newsletter For Latest Collections <ArrowUpRight />
         </span>
       </section>
       <nav className="flex items-center justify-between border-b border-gray15 bg-white px-[9rem] py-2">
