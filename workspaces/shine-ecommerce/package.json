@@ -6,8 +6,7 @@
     "start:dev": "next dev",
     "start:prd": "next start",
     "build": "next build",
-    "lint": "next lint",
-    "lint:fix": "next lint --fix"
+    "lint": "next lint --fix"
   },
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.0",

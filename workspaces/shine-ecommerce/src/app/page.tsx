@@ -1,13 +1,11 @@
-import Image from 'next/image'
-
-import { Button } from '@/components/ui/button'
+import { Header } from '@/shared/components/header'
+import { Layout } from '@/shared/components/layout'
 
 const HomePage = () => {
   return (
-    <div className='min-h-screen flex justify-center items-center bg-slate-800'>
-      <Button>Hello World!</Button>
-      <Image src='/logo.svg' alt='shine logo' width={60} height={60} />
-    </div>
+    <Layout>
+      <Header />
+    </Layout>
   )
 }
 

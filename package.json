@@ -5,5 +5,9 @@
   "license": "ISC",
   "workspaces": [
     "workspaces/shine-ecommerce"
-  ]
+  ],
+  "dependencies": {
+    "install": "^0.13.0",
+    "lucide-react": "^0.368.0"
+  }
 }
