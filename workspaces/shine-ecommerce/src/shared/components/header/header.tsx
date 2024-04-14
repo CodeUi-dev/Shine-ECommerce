@@ -13,12 +13,13 @@ export const Header = () => {
 
   return (
     <header className="flex w-full flex-col">
-      <section className="flex items-center justify-center bg-primary px-4 py-3">
-        <span className="flex items-center gap-2 text-sm font-medium text-white">
-          Subscribe to our Newsletter For Latest Collections <ArrowUpRight />
+      <section className="flex gap-1 items-center justify-center bg-primary text-white text-center px-4 py-3 ">
+        <span className="flex items-center text-[14px] md:text-[18px] font-medium">
+          Subscribe to our Newsletter For Latest Collections
         </span>
+        <ArrowUpRight />
       </section>
-      <nav className="flex items-center justify-between border-b border-gray15 bg-white px-[9rem] py-2">
+      <nav className="flex w-full items-center justify-between border-b border-gray15 bg-white px-[1rem] md:px-[9rem] py-2">
         <section className="flex items-center">
           {isMobile && (
             <Image
