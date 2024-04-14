@@ -10,7 +10,7 @@ export const Layout = ({ children }: LayoutProps) => {
   return (
     <main>
       <Header />
-      <section className="px-[10rem] mt-[6.25rem]">{children}</section>
+      <section className="px-[1rem] mt-[2.5rem] w-full">{children}</section>
     </main>
   );
 };
