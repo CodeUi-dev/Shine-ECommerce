@@ -4,7 +4,7 @@ import { Layout } from '@/shared/components/layout'
 const HomePage = () => {
   return (
     <Layout>
-      <Header />
+    teste
     </Layout>
   )
 }
