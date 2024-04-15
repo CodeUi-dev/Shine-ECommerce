@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { ZodError, z } from 'zod'
-import dataSource from '../../../db/dataSource'
+import { dataSource } from '../../../db/dataSource'
 import Product from '../../../db/entity/product'
 import EFormalityLevel from '../../../enum/EFormalityLevel'
 

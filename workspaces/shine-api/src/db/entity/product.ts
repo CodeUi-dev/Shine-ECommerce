@@ -23,6 +23,9 @@ class Product {
 
     @Column()
     is_kidswear: boolean
+
+    @Column()
+    created_at: string
 }
 
 export default Product

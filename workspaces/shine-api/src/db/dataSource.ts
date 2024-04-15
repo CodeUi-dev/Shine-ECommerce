@@ -1,20 +1,25 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
 import env from "../utils/env"
-import Product from "./entity/product"
 
-const dataSource = new DataSource({
-    type: "postgres",
-    host: env.DB_HOST,
-    port: env.DB_PORT,
-    username: env.DB_USERNAME,
-    password: env.DB_PASSWORD,
-    database: env.DB_DATABASE,
-    synchronize: true,
-    logging: false,
-    entities: [Product],
-    migrations: [],
-    subscribers: [],
+export const dataSource = new DataSource({
+	type: "postgres",
+	host: env.DB_HOST,
+	port: env.DB_PORT,
+	username: env.DB_USERNAME,
+	password: env.DB_PASSWORD,
+	database: env.DB_DATABASE,
+	entities: [__dirname + "/entity/*.{js,ts}"],
+	migrations: [__dirname + "/migration/*.{js,ts}"],
+	migrationsRun: true
 })
 
-export default dataSource
+export const connectToDatabase = async () => {
+	try {
+		await dataSource.initialize()
+		console.log('Succefully connected to Database')
+	} catch(err) {
+		console.log('Error in connecting to Database: ', err)
+		throw err
+	}
+}
