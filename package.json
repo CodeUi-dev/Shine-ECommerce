@@ -4,6 +4,6 @@
   "author": "Mikael Marceniuk; Ryan Oliveira",
   "license": "ISC",
   "workspaces": [
-    "workspaces/shine-ecommerce"
+    "workspaces/*"
   ]
 }
