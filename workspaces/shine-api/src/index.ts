@@ -3,6 +3,6 @@ import Server from "./server";
 
 (async () => {
 	const server = new Server()
-	server.init()
+	await server.init()
 	server.listen()
 })()
