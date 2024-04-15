@@ -16,13 +16,13 @@ class Product {
     formality_level: EFormalityLevel
 
     @Column()
-    is_menswear: string
+    is_menswear: boolean
 
     @Column()
-    is_womenswear: string
+    is_womenswear: boolean
 
     @Column()
-    is_kidswear: string
+    is_kidswear: boolean
 }
 
 export default Product
