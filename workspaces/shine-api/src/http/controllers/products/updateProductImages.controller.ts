@@ -1,8 +1,11 @@
 import { Request, Response } from 'express'
+import path from 'node:path'
 import { z } from 'zod'
+import tmpFolderPath from '../../../constants/tmpFolderPath'
 import { dataSource } from '../../../db/dataSource'
 import Product from '../../../db/entity/product'
 import ProductImage from '../../../db/entity/productImage'
+import GoogleStorage from '../../../libs/googleCloudStorage'
 
 const filesSchema = z.object({
 	image: z.array(
@@ -28,14 +31,22 @@ const updateProductImages = async (req: Request, res: Response) => {
 		const productImageRepo = dataSource.getRepository(ProductImage)
 
 		const dbProduct = await productRepo.findOneByOrFail({ id: productId })
-		
-		const newProductImages = image.map(file => {
+		const gStorage = new GoogleStorage()
+		const newProductImages: ProductImage[] = []
+
+		for(const { filename } of image) {
+			const imageUrl = await gStorage.uploadProductImage({
+				filename,
+				filepath: path.resolve(tmpFolderPath, filename),
+				productName: dbProduct.name
+			})
+
 			const pImage = new ProductImage()
-			pImage.url = file.filename
+			pImage.url = imageUrl
 			pImage.product = dbProduct
 
-			return pImage
-		})
+			newProductImages.push(pImage)
+		}
 
 		await productImageRepo.save(newProductImages)
 

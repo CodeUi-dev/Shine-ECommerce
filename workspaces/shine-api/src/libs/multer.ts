@@ -1,17 +1,15 @@
 import multer from 'multer'
 import crypto from 'node:crypto'
 import fs from 'node:fs'
-import path from 'node:path'
+import tmpFolderPath from '../constants/tmpFolderPath'
 
-const tmpFolder = path.resolve(__dirname, '..', 'tmp')
-
-if(!fs.existsSync(tmpFolder)) {
-	fs.mkdirSync(tmpFolder)
+if(!fs.existsSync(tmpFolderPath)) {
+	fs.mkdirSync(tmpFolderPath)
 }
 
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
-		cb(null, tmpFolder)
+		cb(null, tmpFolderPath)
 	},
 	filename: (req, file, cb) => {
 		const fileName = `${crypto.randomUUID()}-${file.originalname}`
