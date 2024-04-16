@@ -16,7 +16,9 @@ interface IRootLayoutProps {
 const RootLayout: React.FC<IRootLayoutProps> = ({ children }) => {
   return (
     <html lang="pt">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children}
+      </body>
     </html>
   );
 }
