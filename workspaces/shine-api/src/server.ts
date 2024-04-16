@@ -31,7 +31,7 @@ class Server {
 
 	private loadSwagger() {
 		const swaggerUi = require('swagger-ui-express')
-		const swaggerDoc = require('./docs/swagger.json')
+		const swaggerDoc = require('../docs/swagger.json')
 
 		this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
 	}

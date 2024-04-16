@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import crypto from 'node:crypto'
 import { ZodError, z } from 'zod'
 import { dataSource } from '../../../db/dataSource'
 import Product from '../../../db/entity/product'

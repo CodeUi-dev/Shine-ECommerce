@@ -6,8 +6,7 @@
    "scripts": {
       "start:dev": "tsnd --respawn --transpile-only src/index.ts",
       "start:prd": "node dist/index.js",
-      "build": "tsc",
-      "start": "ts-node src/index.ts"
+      "build": "tsc"
    },
    "dependencies": {
       "body-parser": "^1.20.2",
