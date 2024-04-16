@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryColumn } from "typeorm"
+import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm"
 import EFormalityLevel from "../../enum/EFormalityLevel"
+import ProductImage from "./productImage"
 
 @Entity()
 class Product {
@@ -26,6 +27,9 @@ class Product {
 
     @Column()
     created_at: string
+
+    @OneToMany(() => ProductImage, (pImage) => pImage.product)
+    images: ProductImage[]
 }
 
 export default Product

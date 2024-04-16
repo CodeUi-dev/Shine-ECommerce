@@ -25,9 +25,9 @@ const createProduct = async (req: Request, res: Response) => {
 		p.is_womenswear = body.is_womenswear
 		p.is_kidswear = body.is_kidswear
 	
-		await dataSource.manager.save(p)
+		const dbProduct = await dataSource.manager.save(p)
 	
-		res.status(201).send()
+		res.status(201).send({ product: dbProduct })
 	} catch (e) {
 		if(e instanceof ZodError) {
 			return res
