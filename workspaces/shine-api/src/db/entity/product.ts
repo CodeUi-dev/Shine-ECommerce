@@ -28,7 +28,7 @@ class Product {
     @Column()
     created_at: string
 
-    @OneToMany(() => ProductImage, (pImage) => pImage.product)
+    @OneToMany(() => ProductImage, (pImage) => pImage.product, { cascade: ["remove"] })
     images: ProductImage[]
 }
 

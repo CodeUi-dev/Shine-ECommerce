@@ -25,7 +25,8 @@ export class CreateProductImages1713261183135 implements MigrationInterface {
 			foreignKeys: [{
 				columnNames: ['product_id'],
 				referencedTableName: 'product',
-				referencedColumnNames: ['id']
+				referencedColumnNames: ['id'],
+				onDelete: 'cascade'
 			}]
 		})
 
