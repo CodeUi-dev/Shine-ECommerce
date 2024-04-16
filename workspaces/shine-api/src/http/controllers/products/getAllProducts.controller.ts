@@ -17,7 +17,7 @@ const getAllProducts = async (req: Request, res: Response) => {
 		is_menswear: p.is_menswear,
 		is_womenswear: p.is_womenswear,
 		is_kidswear: p.is_kidswear,
-		thumbnail: p.images[0].url
+		thumbnail: p.images[0]?.url || undefined
 	}))
 
 	res
