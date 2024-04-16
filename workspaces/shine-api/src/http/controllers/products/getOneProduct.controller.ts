@@ -7,14 +7,16 @@ import Product from '../../../db/entity/product'
 const getOneProduct = async (req: Request, res: Response) => {
 	try {		
 		const productId = z.string().parse(req.params.productId)
-
 		const productRepo = dataSource.getRepository(Product)
+
+		const dbProduct = await productRepo.findOne({
+			where: { id: productId },
+			relations: { images: true }
+		})
 	
 		res
 			.status(200)
-			.json({
-				data: await productRepo.findOneByOrFail({ id: productId })
-			})
+			.json({ data: dbProduct })
 	} catch (e) {
 		if(e instanceof ZodError) {
 			return res
