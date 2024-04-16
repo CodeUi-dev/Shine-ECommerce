@@ -29,7 +29,8 @@
                           "is_menswear": { "type": "boolean", "description": "Se a roupa foi feito para homem." },
                           "is_womenswear": { "type": "boolean", "description": "Se a roupa foi feito para mulher." },
                           "is_kidswear": { "type": "boolean", "description": "Se a roupa foi feito para crianca." },
-                          "created_at": { "type": "string", "description": "Quando o produto foi criado." }
+                          "created_at": { "type": "string", "description": "Quando o produto foi criado." },
+                          "thumbnail": { "type": "string", "description": "URL da foto do produto." }
                         }
                       }
                     }
@@ -43,9 +44,6 @@
       "post": {
         "summary": "Criar um novo produto",
         "description": "Cria um novo produto no sistema.",
-        "parameters": [
-          { "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -65,7 +63,27 @@
         },
         "responses": {
           "201": {
-            "description": "Produto criado com sucesso."
+            "description": "Produto criado com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "product": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string", "description": "ID do produto." },
+                        "name": { "type": "string", "description": "Nome do produto." },
+                        "formality_level": { "type": "string", "description": "Nivel de formalidade do produto." },
+                        "is_menswear": { "type": "boolean", "description": "Se a roupa foi feito para homem." },
+                        "is_womenswear": { "type": "boolean", "description": "Se a roupa foi feito para mulher." },
+                        "is_kidswear": { "type": "boolean", "description": "Se a roupa foi feito para crianca." }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
             "description": "Body da requisicao incompleta.",
@@ -104,7 +122,17 @@
                     "is_menswear": { "type": "boolean", "description": "Se a roupa foi feito para homem." },
                     "is_womenswear": { "type": "boolean", "description": "Se a roupa foi feito para mulher." },
                     "is_kidswear": { "type": "boolean", "description": "Se a roupa foi feito para crianca." },
-                    "created_at": { "type": "string", "description": "Quando o produto foi criado." }
+                    "created_at": { "type": "string", "description": "Quando o produto foi criado." },
+                    "images": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "product_image_id": { "type": "integer", "description": "ID da foto do produto." },
+                          "url": { "type": "string", "description": "URL da foto do produto." }
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -126,8 +154,8 @@
         }
       },
       "put": {
-        "summary": "Criar um novo produto",
-        "description": "Cria um novo produto no sistema.",
+        "summary": "Atualizar um novo produto",
+        "description": "Atualiza um novo produto no sistema.",
         "parameters": [
           { "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }
         ],
@@ -168,8 +196,8 @@
         }
       },
       "delete": {
-        "summary": "Criar um novo produto",
-        "description": "Cria um novo produto no sistema.",
+        "summary": "Deletar um novo produto",
+        "description": "Deleta um novo produto no sistema.",
         "parameters": [
           { "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }
         ],
@@ -191,6 +219,15 @@
             }
           }
         }
+      }
+    },
+    "/products/image/{id}": {
+      "patch": {
+        "summary": "Criar/Atualizar fotos de um produto.",
+        "description": "Criar/Atualizar fotos de um produto.",
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "string" } }
+        ]
       }
     }
   }
