@@ -13,6 +13,7 @@ class Server {
 		await connectToDatabase()
 		this.loadMiddlewares()
 		this.loadRoutes()
+		this.loadSwagger()
 	}
 
 	listen() {
@@ -26,6 +27,13 @@ class Server {
 
 	private loadRoutes() {
 		loadProductsRouter(this.app)
+	}
+
+	private loadSwagger() {
+		const swaggerUi = require('swagger-ui-express')
+		const swaggerDoc = require('./docs/swagger.json')
+
+		this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
 	}
 }
 
