@@ -1,4 +1,4 @@
-import { Home, LineChart, Package, ShoppingCart, Users } from 'lucide-react'
+import { Home, LineChart, Package, ShoppingCart, Tag, Users } from 'lucide-react'
 
 const availablePages = [
 	{
@@ -13,8 +13,13 @@ const availablePages = [
 	},
 	{
 		hrefTo: '/dashboard/products',
+		icon: <Tag />,
+		name: 'Produtos'
+	},
+	{
+		hrefTo: '/dashboard/storage',
 		icon: <Package />,
-		name: 'Produtos e Estoque'
+		name: 'Estoque'
 	},
 	{
 		hrefTo: '/dashboard/users',

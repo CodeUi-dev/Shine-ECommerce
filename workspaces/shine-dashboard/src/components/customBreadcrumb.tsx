@@ -1,6 +1,6 @@
 'use client'
 
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "@/components/ui/breadcrumb"
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import { usePathname } from "next/navigation"
 
 const CustomBreadcrumb = () => {
@@ -16,7 +16,7 @@ const CustomBreadcrumb = () => {
 						<BreadcrumbItem key={i}>
 							<BreadcrumbLink className='capitalize cursor-pointer'>{path}</BreadcrumbLink>
 						</BreadcrumbItem>
-						{/* {i + 1 != paths.length && <BreadcrumbSeparator />} */}
+						{i + 1 != paths.length && <BreadcrumbSeparator />}
 					</>
 				))}
 			</BreadcrumbList>
