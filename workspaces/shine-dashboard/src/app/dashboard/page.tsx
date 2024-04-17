@@ -1,6 +1,6 @@
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Activity, CreditCard, DollarSign, User } from 'lucide-react'
 import InfoCard from "./_components/infoCards"
+import RecentSales from './_components/recentSales'
 import SalesInPeriodChart from './_components/salesInPeriodChart'
 
 const DashboardPage = () => {
@@ -50,14 +50,7 @@ const DashboardPage = () => {
 			</div>
 			<div className='grid grid-cols-4 gap-4'>
 				<SalesInPeriodChart />
-				<Card className='col-span-1'>
-					<CardHeader>
-						Vendas recentes
-					</CardHeader>
-					<CardContent>
-				
-					</CardContent>
-				</Card>
+				<RecentSales />
 			</div>
 		</>
 	)

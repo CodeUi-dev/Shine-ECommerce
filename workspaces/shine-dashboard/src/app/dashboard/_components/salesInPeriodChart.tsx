@@ -50,7 +50,7 @@ const data = [
 
 const SalesInPeriodChart = () => {
 	return (
-		<Card className='col-span-3'>
+		<Card className='col-span-2'>
 			<CardHeader>
 				Vendas no periodo
 			</CardHeader>
