@@ -3,6 +3,7 @@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "./ui/button"
@@ -15,6 +16,7 @@ const signInSchema = z.object({
 type signInFormType = z.infer<typeof signInSchema>
 
 const SignInForm = () => {
+	const router = useRouter()
 	const signInForm = useForm<signInFormType>({
 		resolver: zodResolver(signInSchema),
 		defaultValues: {
@@ -27,6 +29,8 @@ const SignInForm = () => {
 		event?.preventDefault()
 
 		await new Promise((res) => setTimeout(res, 2000))
+
+		router.push('/dashboard')
 	}
 
 	return (
