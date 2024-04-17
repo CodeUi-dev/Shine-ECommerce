@@ -1,4 +1,5 @@
 import Aside from "@/components/aside"
+import CustomBreadcrumb from "@/components/customBreadcrumb"
 
 interface IDashboardLayoutProps {
 	children: React.ReactNode
@@ -6,9 +7,18 @@ interface IDashboardLayoutProps {
 
 const DashboardLayout: React.FC<IDashboardLayoutProps> = ({ children }) => {
 	return (
-		<div className='min-h-screen'>
+		<div
+			className='min-h-screen'
+			style={{
+				display: 'grid',
+				gridTemplateColumns: '56px 1fr'
+			}}
+		>
 			<Aside />
-			{children}
+			<div className='p-4 flex flex-col gap-4'>
+				<CustomBreadcrumb />
+				{children}
+			</div>
 		</div>
 	)
 }
