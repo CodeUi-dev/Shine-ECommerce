@@ -1,8 +1,9 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { formatToCurrency } from "@/utils/formatter"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { formatToCurrency } from "@/utils/formatter";
 
 interface IInfoCardProps {
 	title: string
+	titleIcon: React.ReactNode
 	content: {
 		value: number
 		type: 'INTEGER' | 'CENTS'
@@ -11,11 +12,14 @@ interface IInfoCardProps {
 	}
 }
 
-const InfoCard: React.FC<IInfoCardProps> = ({ title, content }) => {
+const InfoCard: React.FC<IInfoCardProps> = ({ title, titleIcon, content }) => {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>{title}</CardTitle>
+				<CardTitle className='flex justify-between'>
+					{title}
+					{titleIcon}
+				</CardTitle>
 			</CardHeader>
 			<CardContent className='flex flex-col gap-1'>
 				<p className='font-bold text-2xl overflow-hidden text-ellipsis'>
