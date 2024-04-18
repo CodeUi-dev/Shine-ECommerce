@@ -1,5 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import ProductsPageContent from "./_components/products/productsPage"
+import ProductsPageContent from "./_components/products/productsPageContent"
 
 const ProductsPage = () => {
 	return (
