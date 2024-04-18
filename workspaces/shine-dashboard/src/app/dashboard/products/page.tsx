@@ -4,7 +4,7 @@ import ProductsPageContent from "./_components/products/productsPage"
 const ProductsPage = () => {
 	return (
 		<div>
-			<Tabs defaultValue="products" className="w-[400px]">
+			<Tabs defaultValue="products">
 				<TabsList>
 					<TabsTrigger value="products">Produtos</TabsTrigger>
 				</TabsList>

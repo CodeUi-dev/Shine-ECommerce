@@ -17,8 +17,8 @@ import { ptBR } from "date-fns/locale"
 interface IDatePickerWithRange extends React.HTMLAttributes<HTMLDivElement> {
   classname?: string
   value: {
-    from: Date | undefined
-    to: Date | undefined
+    from?: Date
+    to?: Date
   }
 }
 

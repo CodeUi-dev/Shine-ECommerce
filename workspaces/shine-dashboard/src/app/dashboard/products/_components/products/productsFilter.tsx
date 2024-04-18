@@ -1,28 +1,45 @@
 'use client'
 
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { DatePickerWithRange } from "@/components/ui/date-picker-range"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { PopoverClose } from "@radix-ui/react-popover"
-import { SquarePlus } from "lucide-react"
-import { Controller, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 const filtersSchema = z.object({
+	name: z.string().optional(),
+	status: z.string().optional(),
 	createdAt: z.object({
-		from: z.date(),
-		to: z.date()
+		from: z.date().optional(),
+		to: z.date().optional()
 	})
 })
+
+
+const availableStatus = [
+	{
+		id: 1,
+		label: 'Ativado',
+		value: 'active'
+	},
+	{
+		id: 2,
+		label: 'Arquivado',
+		value: 'archived'
+	},
+]
 
 type filtersFormType = z.infer<typeof filtersSchema>
 
 const ProductsFilter = () => {
-	const { control } = useForm<filtersFormType>({
+	const productsFilterForm = useForm<filtersFormType>({
 		resolver: zodResolver(filtersSchema),
 		defaultValues: {
+			name: undefined,
+			status: '',
 			createdAt: {
 				from: undefined,
 				to: undefined
@@ -30,27 +47,100 @@ const ProductsFilter = () => {
 		}
 	})
 
+	const handleOnSubmit = async (data: filtersFormType) => {
+		event?.preventDefault()
+
+		console.log('data: ', data)
+		await new Promise(res => setTimeout(res, 2000))
+	}
+
+	const isThereAnyFilters = () => {
+		const { getValues } = productsFilterForm
+
+		const doesNameHaveValues = getValues('name')
+		const doesStatusHaveValues = getValues('status') != ''
+		const doesCreatedAtHaveValues = getValues('createdAt.from') && getValues('createdAt.to')
+
+		return doesNameHaveValues || doesStatusHaveValues || doesCreatedAtHaveValues
+	}
+
 	return (
-		<div className='flex gap-2'>
-			<Popover>
-				<PopoverTrigger>
-					<Badge variant='filter' className='border-dashed cursor-pointer hover:bg-gray-200'>
-						<SquarePlus size={12} strokeWidth={1} />
-						<span className='ml-1'>Criado em</span>
-					</Badge>
-				</PopoverTrigger>
-				<PopoverContent className='space-y-2'>
-					<Controller
-						control={control}
-						name='createdAt'
-						render={({ field }) => <DatePickerWithRange {...field} />}
-					/>
-					<PopoverClose asChild>
-						<Button className='w-full'>Aplicar</Button>
-					</PopoverClose>
-				</PopoverContent>
-			</Popover>
-		</div>
+		<Form {...productsFilterForm}>
+			<form
+				onSubmit={productsFilterForm.handleSubmit(handleOnSubmit)}
+				className='grid grid-cols-12 gap-2'
+			>
+				<FormField
+					control={productsFilterForm.control}
+					name="name"
+					render={({ field }) => (
+						<FormItem className='col-span-2'>
+							<FormLabel>Nome do produto</FormLabel>
+							<FormControl>
+								<Input placeholder="nome do produto" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<FormField
+					control={productsFilterForm.control}
+					name="status"
+					render={({ field }) => (
+						<FormItem className='col-span-2'>
+							<FormLabel>Status do produto</FormLabel>
+							<Select value={field.value} onValueChange={field.onChange}>
+								<FormControl>
+									<SelectTrigger>
+										<SelectValue placeholder="Selecione um status" />
+									</SelectTrigger>
+								</FormControl>
+								<SelectContent>
+									{availableStatus.map(status => (
+										<SelectItem key={status.id} value={status.value}>
+											{status.label}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+						</FormItem>
+					)}
+				/>
+
+				<FormField
+					control={productsFilterForm.control}
+					name="createdAt"
+					render={({ field }) => (
+						<FormItem className='col-span-3'>
+							<FormLabel>Criado em</FormLabel>
+							<FormControl>
+								<DatePickerWithRange {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				{isThereAnyFilters() && (
+					<Button
+						variant='ghost'
+						className='self-end'
+						onClick={() => productsFilterForm.reset()}
+					>
+						Limpar filtros
+					</Button>
+				)}
+
+				<Button
+					type='submit'
+					className='self-end'
+					disabled={productsFilterForm.formState.isSubmitting}
+				>
+					Filtrar
+				</Button>
+			</form>
+		</Form>
 	)
 }
 

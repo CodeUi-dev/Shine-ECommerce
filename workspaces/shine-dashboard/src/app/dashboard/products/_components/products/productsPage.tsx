@@ -4,10 +4,10 @@ const ProductsPageContent = () => {
 
 
 	return (
-		<>
+		<div>
 			<ProductsFilter />
 			{/* <ProductsTable /> */}
-		</>
+		</div>
 	)
 }
 
