@@ -6,6 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { formatDate } from "@/utils/formatter"
 import { Ellipsis } from "lucide-react"
 import Image from "next/image"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 interface IProduct {
 	id: string
@@ -22,6 +23,18 @@ const data: IProduct[] = Array.from({ length: 20 }).map((_, i) => ({
 }))
 
 const ProductsTable = () => {
+	const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+	const handleOnEditProduct = (productId: string) => () => {
+		const urlWithParams = new URLSearchParams(searchParams.toString())
+		urlWithParams.set('edit', productId)
+
+		router.push(`${pathname}?${urlWithParams.toString()}`)
+	}
+
+
 	return (
 		<Table>
 			<TableHeader>
@@ -56,7 +69,12 @@ const ProductsTable = () => {
 									</PopoverTrigger>
 								</div>
 								<PopoverContent className='flex flex-col gap-2'>
-									<Button variant='outline'>Editar produto.</Button>
+									<Button
+										variant='outline'
+										onClick={handleOnEditProduct(d.id)}
+									>
+										Editar produto.
+									</Button>
 									<Button variant='outline'>Arquivar produto.</Button>
 									<Button variant='outline' className='bg-destructive text-destructive-foreground'>Deletar produto.</Button>
 								</PopoverContent>

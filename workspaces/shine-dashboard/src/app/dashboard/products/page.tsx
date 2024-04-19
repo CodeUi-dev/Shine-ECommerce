@@ -2,7 +2,7 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useState } from "react"
-import CreateProductSheet from "./_components/products/createProductSheet"
+import CreateAndEditProductSheet from "./_components/products/createAndEditProductSheet"
 import ProductsPageContent from "./_components/products/productsPageContent"
 
 type AvailableTabsType = 'products' | 'coupons'
@@ -28,7 +28,7 @@ const ProductsPage = () => {
 			<div className='flex justify-between items-center'>
 				<h1 className='font-bold text-2xl'>Catalogo de Produtos</h1>
 
-				{activeTab == "products" && <CreateProductSheet />}
+				{activeTab == "products" && <CreateAndEditProductSheet />}
 			</div>
 
 			<Tabs defaultValue="products" onValueChange={val => setActiveTab(val as AvailableTabsType)}>

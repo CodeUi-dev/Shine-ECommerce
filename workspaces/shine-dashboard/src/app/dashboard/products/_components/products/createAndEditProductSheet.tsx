@@ -7,7 +7,8 @@ import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger
 import { Textarea } from "@/components/ui/textarea"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CloudUpload, Paperclip } from "lucide-react"
-import { useState } from "react"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useEffect, useState } from "react"
 import { DropzoneOptions } from "react-dropzone"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -30,9 +31,11 @@ const dropZoneConfig: DropzoneOptions = {
 	maxSize: 1 * 1024 * 1024,
 }
 
-const CreateProductSheet = () => {
+const CreateAndEditProductSheet = () => {
+	const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
 	const [isOpen, setIsOpen] = useState(false)
-
 	const productForm = useForm<ProductFormType>({
 		resolver: zodResolver(productSchema),
 		defaultValues: {
@@ -43,13 +46,21 @@ const CreateProductSheet = () => {
 		}
 	})
 
+	useEffect(() => {
+		const productIdInUrlParams = searchParams.get('edit')
+		if(!productIdInUrlParams) return
+
+		setIsOpen(true)
+	}, [searchParams])
+
 	const handleOnCancel = () => {
-		// productForm.reset()
+		productForm.reset()
 		setIsOpen(false)
+
+		router.push(pathname)
 	}
 
 	const handleOnSubmit = async (data: ProductFormType) => {
-		console.log('createProductSheet/data: ', data)
 		await new Promise(res => setTimeout(res, 2000))
 	}
 
@@ -167,4 +178,4 @@ const CreateProductSheet = () => {
 	)
 }
 
-export default CreateProductSheet
+export default CreateAndEditProductSheet
