@@ -48,11 +48,13 @@ const ProductsTable = () => {
 						<TableCell>{formatDate(new Date(d.createdAt))}</TableCell>
 						<TableCell>
 							<Popover>
-								<PopoverTrigger
-									className='py-1 px-2 border border-transparent hover:rounded hover:border-gray-400'
-								>
-									<Ellipsis size={16}/>
-								</PopoverTrigger>
+								<div className='flex justify-end'>
+									<PopoverTrigger
+										className='py-1 px-2 border border-transparent hover:rounded hover:border-gray-400'
+									>
+										<Ellipsis size={16}/>
+									</PopoverTrigger>
+								</div>
 								<PopoverContent className='flex flex-col gap-2'>
 									<Button variant='outline'>Editar produto.</Button>
 									<Button variant='outline'>Arquivar produto.</Button>
