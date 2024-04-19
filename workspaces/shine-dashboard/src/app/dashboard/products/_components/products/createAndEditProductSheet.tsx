@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator"
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Textarea } from "@/components/ui/textarea"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { CloudUpload, Paperclip } from "lucide-react"
+import { CloudUpload, Paperclip, X } from "lucide-react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { DropzoneOptions } from "react-dropzone"
@@ -71,7 +71,13 @@ const CreateAndEditProductSheet = () => {
 			</SheetTrigger>
 			<SheetContent renderCloseIcon={false}>
 				<SheetHeader>
-					<SheetTitle>Criar um produto</SheetTitle>
+					<div className='flex justify-between items-center'>
+						<SheetTitle>Criar um produto</SheetTitle>
+						<X
+							onClick={() => setIsOpen(false)}
+							className='cursor-pointer'
+						/>
+					</div>
 					<Separator />
 				</SheetHeader>
 
@@ -160,7 +166,11 @@ const CreateAndEditProductSheet = () => {
 
 						<Separator />
 						<SheetFooter>
-							<Button variant='outline' onClick={handleOnCancel}>Cancelar</Button>
+							<Button
+								type='reset'
+								variant='outline'
+								onClick={handleOnCancel}
+							>Cancelar</Button>
 							<Button
 								type="submit"
 								disabled={productForm.formState.isSubmitting}
