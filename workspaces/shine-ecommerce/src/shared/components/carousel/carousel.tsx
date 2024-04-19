@@ -16,16 +16,15 @@ export function CarouselPlugin() {
     return (
         <Carousel
 
-            className="w-full max-w-xs relative"
-
+    className='w-[29rem] flex items-center justify-center'
         >
-            <CarouselContent>
+            <CarouselContent className='relative'>
 
                     <CarouselItem key={'index'}>
                         <div className="p-1">
-                            <Tag title="Best Seller" className="absolute left-8 top-[1.5rem]" />
+                            <Tag title="Best Seller" className="absolute left-[10%] top-[10%]" />
 
-                            <div className="absolute left-[11rem] top-[1rem]">
+                            <div className="absolute left-[50%] top-[8%]">
                                 <Tag title="Hoodie" className="left-0" />
                                 <Image
                                     alt="Indicattor line"
@@ -36,7 +35,7 @@ export function CarouselPlugin() {
                                 />
                             </div>
 
-                            <div className="absolute left-8 top-[7.6rem]">
+                            <div className="absolute left-[15%] top-[35%]">
                                 <Tag title="Casual Jacket" className="left-0" />
                                 <Image
                                     alt="Indicattor line"
@@ -47,7 +46,7 @@ export function CarouselPlugin() {
                                 />
                             </div>
 
-                            <div className="absolute right-[1rem] top-[11rem]">
+                            <div className="absolute right-[10%] top-[40%]">
                                 <Tag title="Full Sleeve" className="left-0" />
                                 <Image
                                     alt="Indicattor line"
@@ -62,8 +61,8 @@ export function CarouselPlugin() {
                                 alt="product image"
                                 src="/product-image.svg"
                             
-                                width={400}
-                                height={400}
+                                width={500}
+                                height={600}
                             />
                         </div>
                     </CarouselItem>

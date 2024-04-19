@@ -5,40 +5,39 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import useIsMobile from '@/shared/hooks/useIsMobile';
+
 
 export const Header = () => {
-  const isMobile = useIsMobile();
   const [menuMobile, setMenuMobile] = useState(false);
 
   return (
     <header className="flex w-full flex-col">
-      <section className="flex gap-1 items-center justify-center bg-primary text-white text-center px-4 py-3 ">
-        <span className="flex items-center text-[14px] md:text-[18px] font-medium">
+      <section className="flex items-center justify-center gap-1 bg-primary px-4 py-3 text-center text-white ">
+        <span className="flex items-center text-[14px] font-medium sm:text-[18px]">
           Subscribe to our Newsletter For Latest Collections
         </span>
         <ArrowUpRight />
       </section>
-      <nav className="flex w-full items-center justify-between border-b border-gray15 bg-white px-[1rem] md:px-[9rem] py-2">
-        <section className="flex items-center">
-          {isMobile && (
+      <nav className="border-gray15 flex w-full items-center justify-between border-b bg-white px-[1.1rem] sm:px-[5rem] py-2 ">
+        <section className="hidden items-center sm:flex">
+          <section>
             <Image
               width={60}
               height={60}
               alt="logo image"
               src={'/logo.svg'}
-              className="h-12 w-12"
+              className="h-12 w-12 sm:hidden"
             />
-          )}
-          {!isMobile && (
+          </section>
+          <section>
             <ul className="flex items-center gap-4">
               <Button variant="default">Home</Button>
               <Button variant="default">Products</Button>
             </ul>
-          )}
+          </section>
         </section>
         <div>
-          {!isMobile && (
+          <section>
             <Image
               width={60}
               height={60}
@@ -46,15 +45,20 @@ export const Header = () => {
               src={'/logo.svg'}
               className="h-12 w-12"
             />
-          )}
+          </section>
         </div>
         <section className="flex items-center gap-4">
           <section className="flex items-center gap-4">
             <Button variant="secondary">
               <ShoppingCart fill={'true'} size={20} />
             </Button>
-            {isMobile && <Menu className='cursor-pointer' onClick={() => setMenuMobile(!menuMobile)} />}
-            {!isMobile && <Button variant="default">Contact Support</Button>}
+
+            <Menu
+              className="cursor-pointer sm:hidden"
+              onClick={() => setMenuMobile(!menuMobile)}
+            />
+
+            <Button variant="default" className='hidden sm:flex'>Contact Support</Button>
           </section>
         </section>
       </nav>
