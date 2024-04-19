@@ -8,11 +8,9 @@ const useIsMobile = () => {
       setIsMobile(window.matchMedia('(max-width: 768px)').matches);
     };
 
-    // Verificar o tamanho da janela quando a página é carregada e quando a janela é redimensionada
     handleResize();
     window.addEventListener('resize', handleResize);
 
-    // Limpar o listener do evento quando o componente é desmontado
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 

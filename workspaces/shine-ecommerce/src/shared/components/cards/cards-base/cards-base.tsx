@@ -6,7 +6,7 @@ interface CardsBaseProps {
 
 export const CardsBase = ({ children }: CardsBaseProps) => {
     return (
-        <div className='bg-white-99 rounded-[1rem] p-1'>
+        <div className='bg-white-99 rounded-[1rem] p-1 relative'>
             {children}
         </div>
     )
