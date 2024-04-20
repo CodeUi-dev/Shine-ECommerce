@@ -4,22 +4,23 @@ import { Menu, ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
 
-import { Button } from '@/components/ui/button';
-
+import { Button } from '@/shared/components/ui/button';
 
 export const Header = () => {
   const [menuMobile, setMenuMobile] = useState(false);
 
   return (
-    <header className="flex w-full flex-col">
-      <section className="flex items-center justify-center gap-1 bg-primary px-4 py-3 text-center text-white ">
+    <header className="flex  w-full flex-col items-center">
+      <section className="flex w-full items-center  justify-center gap-1 bg-primary  py-3 text-center text-white ">
         <span className="flex items-center text-[14px] font-medium sm:text-[18px]">
           Subscribe to our Newsletter For Latest Collections
         </span>
         <ArrowUpRight />
       </section>
-      <nav className="border-gray15 flex w-full items-center justify-between border-b bg-white px-[1.1rem] sm:px-[5rem] py-2 ">
+      <hr />
+      <nav className="border-gray15 container md:w-full flex w-full items-center justify-between border-b bg-white px-[1.1rem] py-2 sm:px-[5rem] ">
         <section className="hidden items-center sm:flex">
+          <hr />
           <section>
             <Image
               width={60}
@@ -58,7 +59,9 @@ export const Header = () => {
               onClick={() => setMenuMobile(!menuMobile)}
             />
 
-            <Button variant="default" className='hidden sm:flex'>Contact Support</Button>
+            <Button variant="default" className="hidden sm:flex">
+              Contact Support
+            </Button>
           </section>
         </section>
       </nav>

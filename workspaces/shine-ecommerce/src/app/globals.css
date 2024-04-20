@@ -3,6 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.button {
+  height: 20px;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

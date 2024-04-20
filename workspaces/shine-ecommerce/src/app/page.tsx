@@ -5,7 +5,7 @@ import { SectionHeader } from '@/shared/components/section-header';
 const HomePage = () => {
   return (
     <section>
-      <div className="flex justify-center gap-[3.75rem] text-start w-full flex-col sm:flex-col md:flex-row">
+      <div className="flex justify-center gap-[3.75rem] text-start w-full flex-col md:flex-col sm:flex-col lg:flex-row mt-[6.25rem]">
         <section className="flex flex-col gap-[40px]">
           <SectionHeader
             tag="Style Redefined."

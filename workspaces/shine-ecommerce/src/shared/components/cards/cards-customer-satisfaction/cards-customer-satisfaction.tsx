@@ -15,7 +15,7 @@ const BaseCardsComponent = ({
   return (
     <div className="flex flex-col gap-[4px] rounded-[1rem]">
       <div>
-        <div className="rounded-[1rem] border border-white-95 bg-white p-[20px]">
+        <div className="rounded-[1rem] h-[9rem] border border-white-95 bg-white p-[20px]">
           <h1 className="text-[20px] font-semibold uppercase text-gray-10">
             {title}
           </h1>
