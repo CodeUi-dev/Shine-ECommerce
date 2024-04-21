@@ -61,9 +61,10 @@ const fakeItem = [
   },
 ];
 
-export function CarouselPlugin() {
+export function CarouselViewProduct() {
   return (
-    <Carousel className="relative w-[340px] md:w-[420px]">
+    <section>
+        <Carousel className="relative w-[340px] md:w-[420px]">
       <CarouselContent >
         {fakeItem.map((productView) => {
           return (
@@ -90,5 +91,6 @@ export function CarouselPlugin() {
         <CarouselNext className="bg-black text-white hover:bg-black hover:text-white" />
       </section>
     </Carousel>
+    </section>
   );
 }
