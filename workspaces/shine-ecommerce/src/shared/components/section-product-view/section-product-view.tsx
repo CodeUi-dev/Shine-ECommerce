@@ -9,11 +9,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/shared/components/ui/carousel';
+import { formatCurrency } from '@/utils/formatter-currency';
 
 import { Button } from '../ui/button';
 
 export const SectionProductView = () => {
-  const [activeFilter, setActiveFilter] = useState<string>('');
+  const [activeFilter, setActiveFilter] = useState<string>('Casual');
+  const [selectedItem, setSelectedItem] = useState<string>('All');
 
   const fakeItem = [
     {
@@ -24,7 +26,7 @@ export const SectionProductView = () => {
       ],
       size: ['DWDWDWD', 'XL', 'SL', 'xXL'],
       linkView: 'www.facebook.com.br/',
-
+      price: 12.99,
       details: {
         view: ['Best Seller', 'Casual Jacket', 'Full Sleeve'],
         size: ['2', 'XL', 'SL', 'XL'],
@@ -38,7 +40,7 @@ export const SectionProductView = () => {
       image: [
         'https://static.vecteezy.com/system/resources/previews/004/688/865/large_2x/t-shirt-mockup-in-white-color-a-man-wearing-a-t-shirt-for-a-mockup-clothing-catalog-mockup-graphic-from-the-front-view-free-photo.jpg',
       ],
-
+      price: 12.99,
       details: {
         view: ['Best Seller', 'Casual Jacket', 'Full Sleeve'],
         size: ['3', 'XL', 'SL', 'xXL'],
@@ -52,7 +54,7 @@ export const SectionProductView = () => {
       image: [
         'https://static.vecteezy.com/system/resources/previews/004/688/865/large_2x/t-shirt-mockup-in-white-color-a-man-wearing-a-t-shirt-for-a-mockup-clothing-catalog-mockup-graphic-from-the-front-view-free-photo.jpg',
       ],
-
+      price: 12.99,
       details: {
         view: ['Best Seller', 'Casual Jacket', 'Full Sleeve'],
         size: ['4', 'XL', 'SL', 'xXL'],
@@ -75,14 +77,15 @@ export const SectionProductView = () => {
     {
       text: 'Kidswear',
     },
-    {
-      text: 'Menswear',
-    },
   ];
 
   const handleFilterActive = (filter: string) => {
     setActiveFilter(filter);
     console.log(filter);
+  };
+  const handleItemClick = (index: string) => {
+    setSelectedItem(index);
+    console.log(index);
   };
 
   return (
@@ -95,9 +98,16 @@ export const SectionProductView = () => {
       >
         <CarouselContent className="w-full py-[20px]">
           {listItens.map((item, index) => (
-            <CarouselItem key={index} className="basis-4/4 ">
-              <div className="items-center border-r pr-4">
-                <span className="text-[1rem] uppercase text-gray-60 font-medium">{item.text}</span>
+            <CarouselItem key={index} className={'basis-4/4'}>
+              <div
+                className="items-center border-r pr-4"
+                onClick={() => handleItemClick(item.text)}
+              >
+                <span
+                  className={`text-[1rem] uppercase  ${selectedItem === item.text ? 'text-black' : 'text-gray-60'} font-semibold`}
+                >
+                  {item.text}
+                </span>
               </div>
             </CarouselItem>
           ))}
@@ -112,29 +122,22 @@ export const SectionProductView = () => {
           Casual
         </Button>
         <Button
-         variant="selected"
+          variant="selected"
           className={`w-full ${activeFilter === 'Formal' ? 'bg-black text-white' : ''}`}
           onClick={() => handleFilterActive('Formal')}
         >
           Formal
         </Button>
         <Button
-         variant="selected"
+          variant="selected"
           className={`w-full ${activeFilter === 'Party' ? 'bg-black text-white' : ''}`}
           onClick={() => handleFilterActive('Party')}
         >
           Party
         </Button>
       </section>
-      <header>
-        <Carousel className="relative w-[340px] md:w-[420px]">
-          <section className="absolute right-16 top-10">
-            <CarouselPrevious className="-left-5" />
-            <CarouselNext className="bg-black text-white hover:bg-black hover:text-white" />
-          </section>
-        </Carousel>
-      </header>
-      <Carousel className="relative w-[340px] md:w-[420px]">
+
+      <Carousel className="relative mt-[40px] w-[340px] md:w-[420px]">
         <CarouselContent>
           {fakeItem.map((productView) => {
             return (
@@ -148,15 +151,18 @@ export const SectionProductView = () => {
                     className="rounded-md"
                   />
                 </div>
-                <section className="absolute bottom-5 w-full"></section>
+                <footer className="mt-2 flex flex-col w-full px-1">
+                  <h4 className='font-semibold text-[1rem] text-gray-15'>{productView.name}</h4>
+                  <span className='font-medium text-[1rem] text-gray-30'>{formatCurrency(productView.price)}</span>
+                </footer>
               </CarouselItem>
             );
           })}
         </CarouselContent>
 
-        <section className="absolute right-16 top-10">
-          <CarouselPrevious className="-left-5" />
-          <CarouselNext className="bg-black text-white hover:bg-black hover:text-white" />
+        <section className="absolute bottom-3 end-0 flex h-[40px] w-[90px] items-end justify-end">
+          <CarouselPrevious className="left-4" />
+          <CarouselNext className="right-0 bg-black text-white hover:bg-black hover:text-white" />
         </section>
       </Carousel>
     </section>
