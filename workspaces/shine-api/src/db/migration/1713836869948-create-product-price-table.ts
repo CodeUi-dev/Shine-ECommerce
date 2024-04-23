@@ -1,20 +1,28 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-const tableName = 'product_image'
+const tableName = 'product_price'
 
-export class CreateProductImages1713261183135 implements MigrationInterface {
+export class CreateProductPriceTable1713836869948 implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
 		const table = new Table({
 			name: tableName,
 			columns: [
 				{
-					name: 'product_image_id',
+					name: 'product_price_id',
 					type: 'varchar',
 					isPrimary: true
 				},
 				{
-					name: 'url',
-					type: 'varchar',
+					name: 'price_model',
+					type: 'varchar(15)',
+				},
+				{
+					name: 'amount',
+					type: 'integer',
+				},
+				{
+					name: 'currency',
+					type: 'varchar(3)',
 				},
 				{
 					name: 'product_id',

@@ -40,7 +40,7 @@ class GoogleStorage {
         console.log(`Upload of product image "${filename}" finished.`)
       );
 
-    return `https://storage.cloud.google.com/codeui-shine-ecommerce/products/${filename}`
+    return `https://storage.googleapis.com/codeui-shine-ecommerce/products/${filename}`
 	}
 }
 

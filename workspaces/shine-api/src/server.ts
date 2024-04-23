@@ -1,4 +1,5 @@
 import bodyParser from "body-parser"
+import cors from 'cors'
 import express, { Application } from "express"
 import morgan from "morgan"
 import { connectToDatabase } from "./db/dataSource"
@@ -23,6 +24,7 @@ class Server {
 	private loadMiddlewares() {
 		this.app.use(morgan('dev'))
 		this.app.use(bodyParser.json())
+		this.app.use(cors())
 	}
 
 	private loadRoutes() {
