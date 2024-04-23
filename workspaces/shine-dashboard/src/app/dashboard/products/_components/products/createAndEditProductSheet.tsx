@@ -10,7 +10,7 @@ import { Separator } from "@/components/ui/separator"
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Textarea } from "@/components/ui/textarea"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { CloudUpload, Paperclip, X } from "lucide-react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -37,6 +37,7 @@ const dropZoneConfig: DropzoneOptions = {
 }
 
 const CreateAndEditProductSheet = () => {
+	const queryClient = useQueryClient()
 	const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -65,7 +66,24 @@ const CreateAndEditProductSheet = () => {
 	})
 
 	const updateProduct = useMutation({
-		mutationFn: apiUpdateProduct
+		mutationFn: apiUpdateProduct,
+		onSuccess: (_apiResp, updatedProduct) => {
+			const productsInCache = queryClient.getQueriesData({
+				queryKey: ['products']
+			})
+			if(productsInCache.length == 0) return
+
+			const [cacheKey, cache] = productsInCache[0]
+
+			queryClient.setQueryData(cacheKey, cache.map(p => {
+				if(p.id != updatedProduct.id) return p
+				return {
+					...p,
+					name: updatedProduct.name,
+					description: updatedProduct.description
+				}
+			}))
+		}
 	})
 
 	const updateProductImageMutation = useMutation({
@@ -75,20 +93,21 @@ const CreateAndEditProductSheet = () => {
 	useEffect(() => {
 		(async () => {
 			const productIdInUrlParams = searchParams.get('edit')
-			if(productIdInUrlParams) {
-				setIsOpen(true)
-				const { data, isError } = await getProductQuery.refetch()
-				if(isError) {
-					alert('Error in fetching product.')
-					setIsOpen(false)
-					return
-				}
+			if(!productIdInUrlParams) return
 
-				productForm.setValue('name', data?.name)
-				productForm.setValue('description', data?.description)
-				productForm.setValue('image', data?.images)
-				productForm.setValue('amount', 0)
+			setIsOpen(true)
+
+			const { data, isError } = await getProductQuery.refetch()
+			if(isError) {
+				alert('Error in fetching product.')
+				setIsOpen(false)
+				return
 			}
+
+			productForm.setValue('name', data?.name)
+			productForm.setValue('description', data?.description)
+			productForm.setValue('image', data?.images)
+			productForm.setValue('amount', 0)
 		})()
 	}, [searchParams])
 
@@ -118,6 +137,7 @@ const CreateAndEditProductSheet = () => {
 
 	const handleOnSubmit = async (data: ProductFormType) => {
 		event?.preventDefault()
+
 		if(isEditing && currentProductId) {
 			await updateProduct.mutate({
 				id: currentProductId,
