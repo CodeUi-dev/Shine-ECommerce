@@ -11,7 +11,7 @@ class Product {
     name: string
 
     @Column()
-    description: string
+    description?: string
 
     @Column()
     created_at: string

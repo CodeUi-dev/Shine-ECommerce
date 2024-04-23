@@ -1,10 +1,12 @@
 'use client'
 
+import getAllProducts from "@/api/getAllProducts"
 import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { formatDate } from "@/utils/formatter"
-import { Ellipsis } from "lucide-react"
+import { useQuery } from '@tanstack/react-query'
+import { Ellipsis, ImagePlus } from "lucide-react"
 import Image from "next/image"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
@@ -15,17 +17,15 @@ interface IProduct {
 	thumbnail: string
 }
 
-const data: IProduct[] = Array.from({ length: 4 }).map((_, i) => ({
-	id: i.toString(),
-	name: `Vestido ${i}`,
-	createdAt: new Date().toISOString(),
-	thumbnail: 'https://storage.googleapis.com/codeui-shine-ecommerce/products/72b0dcf2-8488-4e51-852f-9a7c67ef0f1f-white-sundress.jpeg'
-}))
-
 const ProductsTable = () => {
 	const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
+
+	const { data, isSuccess, isFetching } = useQuery({
+		queryKey: ['products'],
+		queryFn: getAllProducts
+	})
 
 	const handleOnEditProduct = (productId: string) => () => {
 		const urlWithParams = new URLSearchParams(searchParams.toString())
@@ -45,16 +45,26 @@ const ProductsTable = () => {
 				</TableRow>
 			</TableHeader>
 			<TableBody>
-				{data.map(d => (
+				{(data && data.length > 1) && data.map(d => (
 					<TableRow key={d.id}>
 						<TableCell>
-							<Image
-								src={d.thumbnail}
-								width={56}
-								height={56}
-								alt=''
-								className='rounded'
-							/>
+							{d.thumbnail
+								? (
+									<Image
+										src={d.thumbnail}
+										width={56}
+										height={56}
+										alt=''
+										className='rounded'
+									/>
+								)
+								: (
+									<ImagePlus
+										size={56}
+										strokeWidth={1}
+									/>
+								)
+							}
 						</TableCell>
 						<TableCell className='font-bold'>{d.name}</TableCell>
 						<TableCell>{formatDate(new Date(d.createdAt))}</TableCell>
@@ -81,6 +91,8 @@ const ProductsTable = () => {
 						</TableCell>
 					</TableRow>
 				))}
+
+				{!data || data.length == 0 && <span>Nao foi encontrado nada</span>}
 			</TableBody>
 		</Table>
 	)

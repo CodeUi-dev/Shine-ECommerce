@@ -1,3 +1,4 @@
+import CustomQueryClientProvider from "@/contexts/queryClientProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -17,7 +18,9 @@ const RootLayout: React.FC<IRootLayoutProps> = ({ children }) => {
   return (
     <html lang="pt">
       <body className={inter.className}>
-        {children}
+        <CustomQueryClientProvider>
+          {children}
+        </CustomQueryClientProvider>
       </body>
     </html>
   );

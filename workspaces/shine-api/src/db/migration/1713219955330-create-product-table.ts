@@ -18,7 +18,8 @@ export class CreateProductTable1713219955330 implements MigrationInterface {
 				},
 				{
 					name: 'description',
-					type: 'text'
+					type: 'text',
+					isNullable: true
 				},
 				{
 					name: 'created_at',

@@ -11,12 +11,8 @@ const getAllProducts = async (req: Request, res: Response) => {
 		})
 	)
 	.map(p => ({
-		id: p.id,
+		id: p.product_id,
 		name: p.name,
-		formality_level: p.formality_level,
-		is_menswear: p.is_menswear,
-		is_womenswear: p.is_womenswear,
-		is_kidswear: p.is_kidswear,
 		createdAt: p.created_at,
 		thumbnail: p.images[0]?.url || undefined
 	}))

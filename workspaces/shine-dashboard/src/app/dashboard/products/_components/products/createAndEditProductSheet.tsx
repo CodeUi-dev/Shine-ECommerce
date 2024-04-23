@@ -1,3 +1,6 @@
+import apiCreateProduct from "@/api/createProduct"
+import apiUpdateProduct from "@/api/updateProduct"
+import apiUpdateProductImage from "@/api/updateProductImage"
 import { Button } from "@/components/ui/button"
 import { FileInput, FileUploader, FileUploaderContent, FileUploaderItem } from "@/components/ui/file-upload"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -6,6 +9,7 @@ import { Separator } from "@/components/ui/separator"
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Textarea } from "@/components/ui/textarea"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation } from "@tanstack/react-query"
 import { CloudUpload, Paperclip, X } from "lucide-react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -14,10 +18,10 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 const productSchema = z.object({
-	name: z.string(),
-	description: z.string().optional(),
+	name: z.string().min(1),
+	description: z.string(),
 	image: z.array(z.instanceof(File)).max(8),
-	amount: z.coerce.number()
+	amount: z.coerce.number().min(0.01)
 })
 
 type ProductFormType = z.infer<typeof productSchema>
@@ -39,19 +43,43 @@ const CreateAndEditProductSheet = () => {
 	const productForm = useForm<ProductFormType>({
 		resolver: zodResolver(productSchema),
 		defaultValues: {
-			name: undefined,
-			description: undefined,
+			name: '',
+			description: '',
 			image: [],
-			amount: undefined
+			amount: 0
 		}
+	})
+
+	const isEditing = Boolean(searchParams.get('edit'))
+
+	const createProdutionMutation = useMutation({
+		mutationFn: apiCreateProduct
+	})
+
+	const updateProduct = useMutation({
+		mutationFn: apiUpdateProduct
+	})
+
+	const updateProductImageMutation = useMutation({
+		mutationFn: apiUpdateProductImage
 	})
 
 	useEffect(() => {
 		const productIdInUrlParams = searchParams.get('edit')
-		if(!productIdInUrlParams) return
-
-		setIsOpen(true)
+		if(productIdInUrlParams) {
+			setIsOpen(true)
+		}
 	}, [searchParams])
+
+	useEffect(() => {
+		if(!isOpen)
+			router.push(pathname)
+	}, [isOpen])
+
+	useEffect(() => {
+		if(createProdutionMutation.isSuccess)
+			productForm.reset()
+	}, [createProdutionMutation.isSuccess])
 
 	const handleOnCancel = () => {
 		productForm.reset()
@@ -61,6 +89,15 @@ const CreateAndEditProductSheet = () => {
 	}
 
 	const handleOnSubmit = async (data: ProductFormType) => {
+		event?.preventDefault()
+		if(!isEditing) {
+			await createProdutionMutation.mutate({
+				name: data.name,
+				description: data.description,
+				priceAmount: data.amount
+			})
+		}
+
 		await new Promise(res => setTimeout(res, 2000))
 	}
 
