@@ -15,7 +15,7 @@ interface IProduct {
 	thumbnail: string
 }
 
-const data: IProduct[] = Array.from({ length: 20 }).map((_, i) => ({
+const data: IProduct[] = Array.from({ length: 4 }).map((_, i) => ({
 	id: i.toString(),
 	name: `Vestido ${i}`,
 	createdAt: new Date().toISOString(),
@@ -34,9 +34,8 @@ const ProductsTable = () => {
 		router.push(`${pathname}?${urlWithParams.toString()}`)
 	}
 
-
 	return (
-		<Table>
+		<Table className='mt-4'>
 			<TableHeader>
 				<TableRow>
 					<TableHead className='w-20'></TableHead>
