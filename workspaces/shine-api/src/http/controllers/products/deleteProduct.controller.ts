@@ -8,7 +8,7 @@ const deleteProduct = async (req: Request, res: Response) => {
 	try {		
 		const productId = z.string().parse(req.params.productId)
 
-		await dataSource.getRepository(Product).delete({ id: productId })
+		await dataSource.getRepository(Product).delete({ product_id: productId })
 
 		res.status(204).send()
 	} catch (e) {

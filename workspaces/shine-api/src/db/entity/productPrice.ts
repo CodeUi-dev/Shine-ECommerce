@@ -1,12 +1,12 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm"
 import Product from "./product"
 
 @Entity({
     name: 'product_price'
 })
 class ProductPrice {
-    @PrimaryGeneratedColumn()
-    product_price_id: number
+    @PrimaryColumn()
+    product_price_id: string
 
     @Column()
     price_model: string

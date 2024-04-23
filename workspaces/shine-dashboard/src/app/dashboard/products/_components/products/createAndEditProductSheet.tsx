@@ -22,7 +22,10 @@ const productSchema = z.object({
 	name: z.string().min(1),
 	description: z.string(),
 	image: z.array(z.instanceof(File)).max(8),
-	amount: z.coerce.number().min(0.01)
+	price: z.object({
+		id: z.string().nullable(),
+		amount: z.coerce.number().min(0.01),
+	})
 })
 
 type ProductFormType = z.infer<typeof productSchema>
@@ -107,7 +110,8 @@ const CreateAndEditProductSheet = () => {
 			productForm.setValue('name', data?.name)
 			productForm.setValue('description', data?.description)
 			productForm.setValue('image', data?.images)
-			productForm.setValue('amount', 0)
+			productForm.setValue('price.id', data?.prices[0].product_price_id)
+			productForm.setValue('price.amount', Number(data?.prices[0].amount / 100).toFixed(2))
 		})()
 	}, [searchParams])
 
@@ -138,11 +142,18 @@ const CreateAndEditProductSheet = () => {
 	const handleOnSubmit = async (data: ProductFormType) => {
 		event?.preventDefault()
 
-		if(isEditing && currentProductId) {
+		if(isEditing) {
+			if(!currentProductId) return alert('No currentProductId')
+			if(!data.price.id) return alert('No priceId')
+
 			await updateProduct.mutate({
 				id: currentProductId,
 				name: data.name,
-				description: data.description
+				description: data.description,
+				price: {
+					id: data.price.id,
+					amount: data.price.amount
+				}
 			})
 		}
 
@@ -242,7 +253,7 @@ const CreateAndEditProductSheet = () => {
 
 						<FormField
 							control={productForm.control}
-							name='amount'
+							name='price.amount'
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Preco (Obrigatorio)</FormLabel>

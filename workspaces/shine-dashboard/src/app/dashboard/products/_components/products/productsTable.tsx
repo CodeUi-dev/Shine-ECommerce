@@ -45,7 +45,7 @@ const ProductsTable = () => {
 				</TableRow>
 			</TableHeader>
 			<TableBody>
-				{(data && data.length > 1) && data.map(d => (
+				{(data && data.length > 0) && data.map(d => (
 					<TableRow key={d.id}>
 						<TableCell>
 							{d.thumbnail

@@ -19,7 +19,18 @@ type ApiCreateProductParams = z.infer<typeof paramsSchema>
 const apiCreateProduct = async (params: ApiCreateProductParams): Promise<IApiCreateProductResponse | undefined> => {
 	try {
 		const body = paramsSchema.parse(params)
-		const apiResponse = await axiosInstance.post<{ product: IApiCreateProductResponse }>('/products', body)
+		const apiResponse = await axiosInstance.post<{ product: IApiCreateProductResponse }>(
+			'/products',
+			{
+				name: body.name,
+				description: body.description,
+				price: {
+					model: 'one-off',
+					currency: 'BRL',
+					amount: body.priceAmount
+				}
+			}
+		)
 		return apiResponse.data.product
 	} catch(e) {
 		if(e instanceof ZodError) {

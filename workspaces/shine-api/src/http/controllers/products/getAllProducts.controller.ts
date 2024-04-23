@@ -7,14 +7,18 @@ const getAllProducts = async (req: Request, res: Response) => {
 
 	const dbProducts = await (
 		await productRepo.find({
-			relations: { images: true }
+			relations: {
+				images: true,
+				prices: true
+			}
 		})
 	)
 	.map(p => ({
 		id: p.product_id,
 		name: p.name,
 		createdAt: p.created_at,
-		thumbnail: p.images[0]?.url || undefined
+		thumbnail: p.images[0]?.url || undefined,
+		priceCount: p.prices.length
 	}))
 
 	res

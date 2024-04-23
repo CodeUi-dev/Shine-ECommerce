@@ -4,16 +4,25 @@ interface IApiUpdateProductParams {
 	id: string
 	name: string
 	description: string
+	price: {
+		id: string
+		amount: number
+	}
 }
 
 const apiUpdateProduct = async ({
 	id,
 	name,
-	description
+	description,
+	price
 }: IApiUpdateProductParams): Promise<void> => {
 	return await axiosInstance.put(
 		`/products/${id}`,
-		{ name, description }
+		{
+			name,
+			description,
+			price
+		}
 	)
 }
 
