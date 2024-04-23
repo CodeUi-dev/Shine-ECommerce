@@ -9,9 +9,6 @@ class ProductPrice {
     product_price_id: number
 
     @Column()
-    url: string
-
-    @Column()
     price_model: string
 
     @Column()

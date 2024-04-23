@@ -1,7 +1,20 @@
 import axiosInstance from "@/lib/axios"
 
-const apiUpdateProduct = async (): Promise<void> => {
-	return await axiosInstance.put('/products')
+interface IApiUpdateProductParams {
+	id: string
+	name: string
+	description: string
+}
+
+const apiUpdateProduct = async ({
+	id,
+	name,
+	description
+}: IApiUpdateProductParams): Promise<void> => {
+	return await axiosInstance.put(
+		`/products/${id}`,
+		{ name, description }
+	)
 }
 
 export default apiUpdateProduct

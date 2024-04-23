@@ -10,8 +10,11 @@ const getOneProduct = async (req: Request, res: Response) => {
 		const productRepo = dataSource.getRepository(Product)
 
 		const dbProduct = await productRepo.findOne({
-			where: { id: productId },
-			relations: { images: true }
+			where: { product_id: productId },
+			relations: {
+				images: true,
+				prices: true
+			}
 		})
 	
 		res

@@ -3,29 +3,22 @@ import { TypeORMError } from 'typeorm'
 import { ZodError, z } from 'zod'
 import { dataSource } from '../../../db/dataSource'
 import Product from '../../../db/entity/product'
-import EFormalityLevel from '../../../enum/EFormalityLevel'
 
 const updateProduct = async (req: Request, res: Response) => {
 	try {		
 		const bodySchema = z.object({
 			name: z.string(),
-			formalityLevel: z.enum(['formal', 'informal', 'party']),
-			is_menswear: z.boolean(),
-			is_womenswear: z.boolean(),
-			is_kidswear: z.boolean()
+			description: z.string().optional()
 		})
 
 		const body = bodySchema.parse(req.body)
 		const productId = z.string().parse(req.params.productId)
 
 		const productRepo = dataSource.getRepository(Product)
-		const dbProduct = await productRepo.findOneByOrFail({ id: productId })
+		const dbProduct = await productRepo.findOneByOrFail({ product_id: productId })
 
 		dbProduct.name = body.name
-		dbProduct.formality_level = body.formalityLevel as EFormalityLevel
-		dbProduct.is_menswear = body.is_menswear
-		dbProduct.is_womenswear = body.is_womenswear
-		dbProduct.is_kidswear = body.is_kidswear
+		dbProduct.description = body.description
 	
 		await productRepo.update(productId, dbProduct)
 	

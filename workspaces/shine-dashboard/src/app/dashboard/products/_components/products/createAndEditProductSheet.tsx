@@ -1,4 +1,5 @@
 import apiCreateProduct from "@/api/createProduct"
+import apiGetProduct from "@/api/getProduct"
 import apiUpdateProduct from "@/api/updateProduct"
 import apiUpdateProductImage from "@/api/updateProductImage"
 import { Button } from "@/components/ui/button"
@@ -9,7 +10,7 @@ import { Separator } from "@/components/ui/separator"
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Textarea } from "@/components/ui/textarea"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { CloudUpload, Paperclip, X } from "lucide-react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -50,7 +51,14 @@ const CreateAndEditProductSheet = () => {
 		}
 	})
 
+	const currentProductId = searchParams.get('edit')
 	const isEditing = Boolean(searchParams.get('edit'))
+
+	const getProductQuery = useQuery({
+		queryKey: ['product', searchParams.get('edit')],
+		queryFn: () => apiGetProduct(searchParams.get('edit')!),
+		enabled: false
+	})
 
 	const createProdutionMutation = useMutation({
 		mutationFn: apiCreateProduct
@@ -65,10 +73,23 @@ const CreateAndEditProductSheet = () => {
 	})
 
 	useEffect(() => {
-		const productIdInUrlParams = searchParams.get('edit')
-		if(productIdInUrlParams) {
-			setIsOpen(true)
-		}
+		(async () => {
+			const productIdInUrlParams = searchParams.get('edit')
+			if(productIdInUrlParams) {
+				setIsOpen(true)
+				const { data, isError } = await getProductQuery.refetch()
+				if(isError) {
+					alert('Error in fetching product.')
+					setIsOpen(false)
+					return
+				}
+
+				productForm.setValue('name', data?.name)
+				productForm.setValue('description', data?.description)
+				productForm.setValue('image', data?.images)
+				productForm.setValue('amount', 0)
+			}
+		})()
 	}, [searchParams])
 
 	useEffect(() => {
@@ -81,6 +102,13 @@ const CreateAndEditProductSheet = () => {
 			productForm.reset()
 	}, [createProdutionMutation.isSuccess])
 
+	useEffect(() => {
+		if(updateProduct.isSuccess) {
+			productForm.reset()
+			setIsOpen(false)
+		}
+	}, [updateProduct.isSuccess])
+
 	const handleOnCancel = () => {
 		productForm.reset()
 		setIsOpen(false)
@@ -90,6 +118,14 @@ const CreateAndEditProductSheet = () => {
 
 	const handleOnSubmit = async (data: ProductFormType) => {
 		event?.preventDefault()
+		if(isEditing && currentProductId) {
+			await updateProduct.mutate({
+				id: currentProductId,
+				name: data.name,
+				description: data.description
+			})
+		}
+
 		if(!isEditing) {
 			await createProdutionMutation.mutate({
 				name: data.name,
@@ -97,8 +133,6 @@ const CreateAndEditProductSheet = () => {
 				priceAmount: data.amount
 			})
 		}
-
-		await new Promise(res => setTimeout(res, 2000))
 	}
 
 	return (
